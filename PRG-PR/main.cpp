@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  Milestone1 1a
+//  Milestone1 1a,b
 //
 //  Created by Niklas on 19.10.18.
 //  Copyright © 2018 Niklas. All rights reserved.
