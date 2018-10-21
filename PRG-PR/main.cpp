@@ -8,10 +8,6 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #include <iostream>
-#include <algorithm> //maybe not needed
-#include <iterator> //maybe not needed
-
-
 
 using namespace std;
 
