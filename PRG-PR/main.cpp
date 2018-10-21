@@ -76,7 +76,7 @@ void interface()
 {
     int array2d [30][30]; int* array1d = new int [900];
     string i; cout << "(Für eine Liste an Befehlen (? oder help) eingeben." << endl;
-    while (i != "exit"){
+    while (true){
         cout << "Welche Aktion ausführen? >>"; cin >> i;
         if (i=="?" || i=="help"){
             cout << endl << "2D Array generieren:  generate2D" << endl;
@@ -96,12 +96,13 @@ void interface()
             print_array1(array1d, 900);
         }
         else if (i=="exit"){
-            return;
+            break;
         }
         else{
             cout << "Falsche Eingabe!" << endl << endl;
             return interface();
         }
     }
+    return;
 }
 
