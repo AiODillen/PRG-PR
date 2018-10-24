@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-int a;//einfach testen ob alles gezeigt  wird
+int b;//einfach testen ob alles gezeigt  wird
 using namespace std;
 
 void copy(int arraya[][30], int arrayb[]);
