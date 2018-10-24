@@ -34,7 +34,7 @@ void print_array1(int array[], int length)
     int m=0;
     for (int n=0; n<length; n++){
         m+=1;
-        cout << array[n];
+        cout << array[n] << " ";
         if (m==30){
             cout << endl;
             m=0;
@@ -48,7 +48,7 @@ void print_array2(int array[][30])
     cout << endl;
     for (int x=0; x<30; x++){
         for (int y=0; y<30; y++){
-            cout << array[x][y];
+            cout << array[x][y] << " ";
         }
         cout << endl;
     }
