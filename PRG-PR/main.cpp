@@ -9,6 +9,8 @@
 #include <time.h>
 #include <iostream>
 
+
+int a;//einfach testen ob alles gezeigt  wird
 using namespace std;
 
 void copy(int arraya[][30], int arrayb[]);
