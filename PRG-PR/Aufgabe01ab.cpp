@@ -8,6 +8,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #include <iostream>
+#include <cstring>      // memcpy
 
 using namespace std;
 
@@ -25,7 +26,6 @@ int main()
 {
     srand(time(0));
     interface();
-    cout << "ende" << endl;
     return 0;
 }
 
