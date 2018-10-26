@@ -100,5 +100,4 @@ void interface()
             return interface();
         }
     }
-    return;
 }
