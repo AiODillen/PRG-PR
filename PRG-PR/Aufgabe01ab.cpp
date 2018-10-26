@@ -25,6 +25,7 @@ int main()
 {
     srand(time(0));
     interface();
+    cout << "ende";
     return 0;
 }
 
