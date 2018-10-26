@@ -4,26 +4,20 @@ using namespace std;
 
 class GameofLife
 {
-    int width,length;
+    int width, length;
 public:
-    void set_size();
-    void set_size(int,int);
-    int** generate_2d_array();
-    void print(int**,int,int);
+    GameofLife();
+    GameofLife(int, int);
+    void print(int**);
+    int **generate_2d_array();
+    void set_live(int**);
 };
 
-void GameofLife::set_size(int a , int b)
-{
-    width = a;
-    length = b;
-}
-void GameofLife::set_size()
-{
-    width = 30;
-    length = 30;
-}
+GameofLife::GameofLife(int x, int y) {width = x; length = y;}
+GameofLife::GameofLife() {width = 30; length = 30;}
+
 int** GameofLife::generate_2d_array() {
-    cout << "Matrix " << width << "x" << length << " was created:" << "\n";
+    cout << "Matrix " << width << "x" << length << " was created:" << endl;
     int ** array2D;
     array2D = new int*[width];
     for (int i = 0; i < width; i++) {
@@ -35,39 +29,49 @@ int** GameofLife::generate_2d_array() {
     return array2D;
 }
 
-void GameofLife::print(int** myarray,int a,int b) {
-    for (int i = 0; i < a; i++) {
-        for (int j = 0; j < b; j++) {
-            cout << myarray[i][j] << " ";
+void GameofLife::print(int** array)
+{
+    cout << endl;
+    for (int x=0; x<width; x++){
+        for (int y=0; y<length; y++){
+            cout << array[x][y] << " ";
         }
         cout << endl;
     }
+    cout << endl;
+}
+void GameofLife::set_live(int** myarray) {
+    int n, m,l;
+    cout << "Geben Sie Anzahl der lebende Zellen ein:";
+    cin >> l;
+    cout<<"Wo moechten Sie  das ein  Lebewesen gesetzt wird.";
+    for (int i = 0; i < l; i++) {
+        cout << "Geben Sie die Zeile ein";
+        cin >> n;
+        cout << "Geben Sie die Spalte ein";
+        cin >> m;
+        myarray[n-1][m-1]=1;
+        cout<<"Es wurde " <<i+1<<" Zelle erstellt"<<endl;
+    }
+
 }
 
-int main() {
-    string eingabe;
-    cout<< "Moechten Sie die vorgegebene Feldgrosse 30x30 andern,Y/N?:";
-    cin>>eingabe;
-    if ((eingabe == "Y")||(eingabe=="y")) {
-        int n, m;
-        cout << "Geben Sie Anzahl der Zeilen ein";
-        cin >> n;
-        cout << "Geben Sie Anzahl der Spalten ein";
-        cin >> m;
-        GameofLife table_with_size{};
-        table_with_size.set_size(n,m);//naturlich hier  werden die Eingabewerten eingesetzt
-        int** my2DArray_sized = table_with_size.generate_2d_array();
-        my2DArray_sized[4][4]=1;
-        table_with_size.print(my2DArray_sized,n,m);
-
+int main()
+{
+    string i; cout << "Eigene Größe festlegen? >>  "; cin >> i;
+    if (i=="N" || i=="n"){
+        GameofLife feld;
+        int** new_array = feld.generate_2d_array();
+        feld.set_live(new_array);
+        feld.print(new_array);
     }
-    else if ((eingabe == "N")||(eingabe=="n")){
-        GameofLife table_no_size{};
-        table_no_size.set_size();
-        int** my2DArray_default = table_no_size.generate_2d_array();
-        my2DArray_default[2][2]=1;
-        table_no_size.print(my2DArray_default,30,30);
-
+    else if (i=="Y" || i=="y"){
+        int j, h; cout << endl; cout << "Länge? >>  "; cin >> j; cout << endl;
+        cout << "Breite? >>  "; cin >> h; cout << endl;
+        GameofLife feld (j, h);
+        int** new_array = feld.generate_2d_array();
+        feld.set_live(new_array);
+        feld.print(new_array);
     }
     else{
         cout << "Leider werden nur Y - Yes und N - No akzeptiert\n";
