@@ -51,7 +51,7 @@ void GameofLife::set_live(int** myarray) {
         cout << "Geben Sie die Spalte ein";
         cin >> m;
         myarray[n-1][m-1]=1;
-        cout<<"Es wurde " <<i+1<<" Zelle erstellt"<<endl;
+        cout<<"Es wurde/wurden " <<i+1<<" Zelle erstellt"<<endl;
     }
 
 }
