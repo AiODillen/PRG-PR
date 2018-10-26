@@ -9,6 +9,7 @@ public:
     void set_size();
     void set_size(int,int);
     int** generate_2d_array();
+    void print(int**,int,int);
 };
 
 void GameofLife::set_size(int a , int b)
@@ -34,8 +35,7 @@ int** GameofLife::generate_2d_array() {
     return array2D;
 }
 
-
-void print(int** myarray,int a,int b) {
+void GameofLife::print(int** myarray,int a,int b) {
     for (int i = 0; i < a; i++) {
         for (int j = 0; j < b; j++) {
             cout << myarray[i][j] << " ";
@@ -44,16 +44,34 @@ void print(int** myarray,int a,int b) {
     }
 }
 
-int main()
-{
-    GameofLife table_no_size{};
-    table_no_size.set_size();
-    int** my2DArray_default = table_no_size.generate_2d_array();
-    print(my2DArray_default,30,30);
-    GameofLife table_with_size{};
-    table_with_size.set_size(9,9);//naturlich hier  werden die Eingabewerten eingesetzt
-    int** my2DArray_sized = table_with_size.generate_2d_array();
-    print(my2DArray_sized,9,9);
+int main() {
+    string eingabe;
+    cout<< "Moechten Sie die vorgegebene Feldgrosse 30x30 andern,Y/N?:";
+    cin>>eingabe;
+    if ((eingabe == "Y")||(eingabe=="y")) {
+        int n, m;
+        cout << "Geben Sie Anzahl der Zeilen ein";
+        cin >> n;
+        cout << "Geben Sie Anzahl der Spalten ein";
+        cin >> m;
+        GameofLife table_with_size{};
+        table_with_size.set_size(n,m);//naturlich hier  werden die Eingabewerten eingesetzt
+        int** my2DArray_sized = table_with_size.generate_2d_array();
+        my2DArray_sized[4][4]=1;
+        table_with_size.print(my2DArray_sized,n,m);
 
+    }
+    else if ((eingabe == "N")||(eingabe=="n")){
+        GameofLife table_no_size{};
+        table_no_size.set_size();
+        int** my2DArray_default = table_no_size.generate_2d_array();
+        my2DArray_default[2][2]=1;
+        table_no_size.print(my2DArray_default,30,30);
+
+    }
+    else{
+        cout << "Leider werden nur Y - Yes und N - No akzeptiert\n";
+        main();
+    }
     return 0;
 }
