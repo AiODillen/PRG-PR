@@ -11,8 +11,10 @@ public:
     void print(int**);
     int **generate_2d_array();
     void set_live(int**);
+    void set_dead(int**);
     int counter(int**,int,int);
     void check(int**,int**);
+    void copy(int**,int**);
 };
 
 GameofLife::GameofLife(int x, int y) {width = x; length = y;}
@@ -46,15 +48,28 @@ void GameofLife::set_live(int** myarray)
     int n, m,l;
     cout << "Geben Sie Anzahl der lebende Zellen ein:";
     cin >> l;
-    cout<<"Wo moechten Sie  das ein  Lebewesen gesetzt wird.";
     for (int i = 0; i < l; i++) {
-        cout << "Geben Sie die Zeile ein";
-        cin >> n;
-        cout << "Geben Sie die Spalte ein";
-        cin >> m;
+        cout << "Geben Sie die Koordinaten  in der Form ein==>x y(wobei x Zeile und y Spalte entspricht)";
+        cin >> n>> m;
         myarray[n-1][m-1]=1;
-        cout<<"Es wurde/wurden " <<i+1<<" Zelle erstellt"<<endl;
+        cout<<"Es wurde lebende Zelle mit  Position("<<n<<","<<m<<" erstellt)"<<endl;
     }
+    cout <<"Aktueller Zustand:";
+    print(myarray);
+}
+void GameofLife::set_dead(int** myarray)
+{
+    int n, m,l;
+    cout << "Geben Sie Anzahl der toten Zellen ein:";
+    cin >> l;
+    for (int i = 0; i < l; i++) {
+        cout << "Geben Sie die Koordinaten  in der Form ein ==>x y(wobei x Zeile und y Spalte entspricht)";
+        cin >> n>> m;
+        myarray[n-1][m-1]=0;
+        cout<<"Es wurde tote Zelle mit  Position("<<n<<","<<m<<" erstellt)"<<endl;
+    }
+    cout <<"Aktueller Zustand:";
+    print(myarray);
 }
 
 int GameofLife::counter(int** myarray,int a,int b)
@@ -105,36 +120,99 @@ void GameofLife::check(int** myarray,int** myarray2)
         }
     }
 }
-
-
-
+void GameofLife::copy(int** myarray,int** myarray2)
+{
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < length; j++) {
+            myarray2[i][j] = myarray[i][j];
+        }
+    }
+}
 int main()
 {
-    string i; cout << "Eigene Größe festlegen? >>  "; cin >> i;
+    cout << "               Wilkommen in THE GAME OF life - Implementation in C++" << endl;
+    cout << "Deafult Größe ist 30x30.Möchten Sie eine eigene Größe festlegen(y/n)? >>  "<< endl;
+    string i;cin >> i;
     if (i=="N" || i=="n"){
         GameofLife feld;
         int** old_array = feld.generate_2d_array();
         int** new_array = feld.generate_2d_array();
         cout << "Matrix 30x30 wurde erstellt:" << endl;
-        feld.set_live(old_array);
-        feld.print(old_array);
-        feld.check(old_array,new_array);
-        feld.print(new_array);
+        int a=0;
+        while (a==0) {
+            cout << "Was möchten Sie jetzt tun:" << endl;
+            cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
+            cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
+            cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
+            cout << "  3    - Das Spiel neu starten" << endl;
+            cout << " Exit  - Das Spiel beenden" << endl;
+            string eingabe;
+            cin>>eingabe;
+            if ((eingabe=="Go") || (eingabe == "go")) {
+                feld.check(old_array, new_array);
+                feld.print(new_array);
+                cout<<"Neuer Zustand";
+                feld.copy(new_array,old_array);
+            }
+            else if (eingabe == "2") {
+                feld.set_dead(old_array);
+            }
+            else  if (eingabe == "1") {
+                feld.set_live(old_array);
+            }
+            else if (eingabe == "3") {
+                main();
+            }
+            else if ((eingabe == "Exit") || (eingabe == "exit")) {
+                a=1;
+            }
+            else {
+                cout<<"Falsche Eingabe!" << endl;
+            }
+        }
 
     }
     else if (i=="Y" || i=="y"){
-        int j, h; cout << endl; cout << "Länge? >>  "; cin >> j; cout << endl;
-        cout << "Breite? >>  "; cin >> h; cout << endl;
+        int j, h; cout << "Länge und Breite in der Form ==> x y?  "; cin >>j>>h; cout << endl;
         GameofLife feld (j, h);
         int** old_array = feld.generate_2d_array();
         int** new_array = feld.generate_2d_array();
-        cout << "Matrix " << j << "x" << h << " wurde erstellt:" << endl;
-        feld.set_live(old_array);
-        feld.print(old_array);
-        feld.check(old_array,new_array);
-        feld.print(new_array);
+        cout << "Matrix "<<j<<"x"<<h<<" wurde erstellt" << endl;
+        int a=0;
+        while (a==0) {
+            cout << "Was möchten Sie jetzt tun:" << endl;
+            cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
+            cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
+            cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
+            cout << "  3    - Das Spiel neu starten" << endl;
+            cout << " Exit  - Das Spiel beenden" << endl;
+            string eingabe;
+            cin>>eingabe;
+            if ((eingabe=="Go") || (eingabe == "go")) {
+                feld.check(old_array, new_array);
+                cout<<"Neuer Zustand";
+                feld.print(new_array);
+                feld.copy(new_array,old_array);
+            }
+            else if (eingabe == "2") {
+                feld.set_dead(old_array);
+            }
+            else  if (eingabe == "1") {
+                feld.set_live(old_array);
+            }
+            else if (eingabe == "3") {
+                main();
+            }
+            else if ((eingabe == "Exit") || (eingabe == "exit")) {
+                a=1;
+            }
+            else {
+                cout<<"Falsche Eingabe!" << endl;
+            }
+        }
     }
     else{
+        cout << "Falsche Eingabe!" << endl;
         cout << "Leider werden nur Y - Yes und N - No akzeptiert\n";
         main();
     }
