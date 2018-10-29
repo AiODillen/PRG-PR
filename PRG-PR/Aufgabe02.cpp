@@ -2,12 +2,18 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main() {
 
-  std::fstream fs;
-  fs.open ("beispiel.txt")
+  char data[100];
 
+  ifstream infile;
+  infile.open("beispiel.txt");
+  infile >> data;
+
+
+  cout << data;
 }
