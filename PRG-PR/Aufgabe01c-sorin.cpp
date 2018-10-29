@@ -140,9 +140,25 @@ void GameofLife::copy(int** myarray,int** myarray2)
         }
     }
 }
-void size_quest()
+GameofLife size_quest()
 {
-    
+    cout << "Deafult Größe ist 30x30.Möchten Sie eine eigene Größe festlegen(y/n)? >>  "<< endl;
+    string i;cin >> i;
+    if (i=="N" || i=="n"){
+        GameofLife feld;
+        return feld;
+    }
+    else if (i=="Y" || i=="y"){
+        int j, h; cout << "Länge und Breite in der Form ==> x y?  "; cin >>j>>h; cout << endl;
+        GameofLife feld (j, h);
+        return feld;
+    }
+    else{
+        cout << "Falsche Eingabe!" << endl;
+        cout << "Leider werden nur Y - Yes und N - No akzeptiert\n";
+        return size_quest();
+    }
+
 }
 int main()
 {
