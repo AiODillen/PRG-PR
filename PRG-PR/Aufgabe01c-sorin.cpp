@@ -17,10 +17,25 @@ public:
     void check(int**,int**);
     void copy(int**,int**);
     void read_size();
+    int** read_field();
 };
 
 GameofLife::GameofLife(int x, int y) {width = x; length = y;}
 GameofLife::GameofLife() {width = 30; length = 30;}
+
+int** GameofLife::read_field()
+{
+    char trash[100];
+    ifstream infile;
+    infile.open("feld.txt");
+    infile >> trash;
+    infile >> trash;
+    string str;
+    infile >> str;
+    for(string::size_type i = 0; i < str.size(); ++i) {
+        cout << i << endl;
+    }
+}
 
 void GameofLife::read_size()
 {
@@ -171,11 +186,21 @@ GameofLife size_quest()
         return feld;
     }
 }
+int** field_quest(GameofLife field)
+{
+    cout << "Feld aus Datei lesen? >>"; string i=input();
+    if (i=="Y" || i=="y"){
+        return field.read_field();
+    }
+    else{
+        return field.generate_2d_array();
+    }
+}
 int main()
 {
     cout << "               Wilkommen in THE GAME OF life - Implementation in C++" << endl;
     GameofLife feld = size_quest();
-    int** old_array = feld.generate_2d_array();
+    int** old_array = field_quest(feld);
     int** new_array = feld.generate_2d_array();
     cout << "Matrix wurde erstellt:" << endl;
     feld.print(new_array);
