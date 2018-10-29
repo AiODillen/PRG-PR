@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string.h>
 
 using namespace std;
 
@@ -31,11 +32,29 @@ int** GameofLife::read_field()
     infile >> trash;
     infile >> trash;
     string str;
-    infile >> str;
-    for(string::size_type i = 0; i < str.size(); ++i) {
-        cout << i << endl;
+    int ** array2D;
+    array2D = new int*[width];
+    for (int i = 0; i < width; i++) {
+        infile >> str;
+        array2D[i]= new int[length];
+        int j=0;
+        while (j < length){
+            for(char& c : str) {
+                cout << c << " ";
+                if (c=='o'){
+                    array2D[i][j] = 0;
+                }
+                else if (c=='*'){
+                    array2D[i][j] = 1;
+                }
+                j++;
+            }
+                }
+            cout << endl;
+        }
+        return array2D;
     }
-}
+
 
 void GameofLife::read_size()
 {
@@ -203,7 +222,7 @@ int main()
     int** old_array = field_quest(feld);
     int** new_array = feld.generate_2d_array();
     cout << "Matrix wurde erstellt:" << endl;
-    feld.print(new_array);
+    feld.print(old_array);
     int a=0;
     while (a==0) {
         cout << "Was möchten Sie jetzt tun:" << endl;
