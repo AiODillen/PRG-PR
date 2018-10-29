@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -15,11 +16,22 @@ public:
     int counter(int**,int,int);
     void check(int**,int**);
     void copy(int**,int**);
+    void read_size();
 };
 
 GameofLife::GameofLife(int x, int y) {width = x; length = y;}
 GameofLife::GameofLife() {width = 30; length = 30;}
 
+void GameofLife::read_size()
+{
+    int width_file, length_file;
+    ifstream infile;
+    infile.open("feld.txt");
+    infile >> width_file;
+    width = width_file;
+    infile >> length_file;
+    length = length_file;
+}
 int** GameofLife::generate_2d_array() {
     int ** array2D;
     array2D = new int*[width];
@@ -211,6 +223,10 @@ int main()
             }
         }
     }
+    else if (i=="E" || i=="e"){
+            
+    return 0;
+}
     else{
         cout << "Falsche Eingabe!" << endl;
         cout << "Leider werden nur Y - Yes und N - No akzeptiert\n";
