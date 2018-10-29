@@ -140,6 +140,10 @@ void GameofLife::copy(int** myarray,int** myarray2)
         }
     }
 }
+void size_quest()
+{
+    
+}
 int main()
 {
     cout << "               Wilkommen in THE GAME OF life - Implementation in C++" << endl;
@@ -223,10 +227,6 @@ int main()
             }
         }
     }
-    else if (i=="E" || i=="e"){
-            
-    return 0;
-}
     else{
         cout << "Falsche Eingabe!" << endl;
         cout << "Leider werden nur Y - Yes und N - No akzeptiert\n";
