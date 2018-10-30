@@ -19,11 +19,32 @@ public:
     void copy(int**,int**);
     void read_size();
     int** read_field();
+    void write_field(int**);
 };
 
 GameofLife::GameofLife(int x, int y) {width = x; length = y;}
 GameofLife::GameofLife() {width = 30; length = 30;}
 
+void GameofLife::write_field(int** field)
+{
+    ofstream exfile;
+    exfile.open("output.txt");
+    cout << endl;
+    exfile << length << endl << width << endl;
+    for (int x=0; x<width; x++){
+        for (int y=0; y<length; y++){
+            if (field[x][y]==0){
+                exfile << 'o';
+            }
+            else if (field[x][y]==1){
+                exfile << '*';
+            }
+        }
+        exfile << endl;
+    }
+    cout << endl;
+
+}
 int** GameofLife::read_field()
 {
     char trash[100];
@@ -230,6 +251,7 @@ int main()
         cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
         cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
         cout << "  3    - Das Spiel neu starten" << endl;
+        cout << "  4    - Das Feld in Datei ausgeben" << endl;
         cout << " Exit  - Das Spiel beenden" << endl;
         string eingabe;
         cin>>eingabe;
@@ -247,6 +269,10 @@ int main()
         }
         else if (eingabe == "3") {
             main();
+        }
+        else if (eingabe == "4"){
+            feld.write_field(old_array);
+            feld.print(old_array);
         }
         else if ((eingabe == "Exit") || (eingabe == "exit")) {
             a=1;
