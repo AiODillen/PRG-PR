@@ -6,8 +6,10 @@
 
 using namespace std;
 
-int main() {
+int main()
 
+void testing::readFile()
+{
   char data[100];
 
   ifstream infile;
@@ -15,5 +17,6 @@ int main() {
   infile >> data;
 
 
+  cout << data;
   cout << data;
 }
