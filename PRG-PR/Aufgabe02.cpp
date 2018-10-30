@@ -8,8 +8,16 @@ using namespace std;
 
 int main()
 
-void testing::readFile()
+class testing
 {
+public:
+    void testing()
+    int** readAsArray
+
+}
+
+void testing::readFile(){
+
   char data[100];
 
   ifstream infile;
@@ -19,4 +27,8 @@ void testing::readFile()
 
   cout << data;
   cout << data;
+}
+
+int** testing::readAsArray(){
+    char total[100]
 }
