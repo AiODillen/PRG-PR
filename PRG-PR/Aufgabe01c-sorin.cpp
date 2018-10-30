@@ -216,7 +216,7 @@ GameofLife size_quest()
         return feld;
     }
     else if (i=="Y" || i=="y"){
-        cout << "Aus Datei Lesen? >>"; string k=input();
+        cout << "Feld aus Datei Lesen? >>"; string k=input();
         if  (k=="Y" || k=="y"){
             GameofLife feld; feld.read_size();
             return feld;
@@ -228,7 +228,7 @@ GameofLife size_quest()
 }
 int** field_quest(GameofLife field)
 {
-    cout << "Feld aus Datei lesen? >>"; string i=input();
+    cout << "Haben sie aus Datei lesen gewaelt? >>"; string i=input();
     if (i=="Y" || i=="y"){
         return field.read_field();
     }
