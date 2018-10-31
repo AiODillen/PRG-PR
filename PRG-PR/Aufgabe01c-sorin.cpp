@@ -215,7 +215,7 @@ GameofLife size_quest()
         GameofLife feld;
         return feld;
     }
-    else if (i=="Y" || i=="y"){
+    else{
         cout << "Feld aus Datei Lesen? >>"; string k=input();
         if  (k=="Y" || k=="y"){
             GameofLife feld; feld.read_size();
