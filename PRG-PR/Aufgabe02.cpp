@@ -6,15 +6,13 @@
 
 using namespace std;
 
-int main()
-
 class testing
 {
 public:
-    void testing()
-    int** readAsArray
+    void readFile();
+    int** readAsArray();
 
-}
+};
 
 void testing::readFile(){
 
@@ -30,5 +28,31 @@ void testing::readFile(){
 }
 
 int** testing::readAsArray(){
-    char total[100]
+    char total[1000];
+    ifstream infile;
+    infile.open("beispiel.txt");
+    string str;
+    int ** picture;
+    picture = new int*[89];
+    for (int i = 0; i < 89; i++) {
+        infile >> str;
+        picture[i]= new int[304];
+        int j=0;
+        while (j < 304){
+            for(char& c : str){
+                cout << c << " ";
+                if (c=='0'){
+                    picture[i][j] = 0;
+                }
+                else if (c=='*'){
+                    picture[i][j] = 1;
+                }
+                j++;
+            }
+        }
+        cout << endl;
+    }
+    return picture;
 }
+
+int main(){}
