@@ -11,21 +11,22 @@ class testing
 public:
     void readFile();
     int** readAsArray();
+    void interface();
 
 };
 
-void testing::readFile(){
+// void testing::readFile(){
 
-  char data[100];
+//  char data[100];
 
-  ifstream infile;
-  infile.open("beispiel.txt");
-  infile >> data;
+//  ifstream infile;
+//  infile.open("beispiel.txt");
+//  infile >> data;
 
 
-  cout << data;
-  cout << data;
-}
+//  cout << data;
+//  cout << data;
+//}
 
 int** testing::readAsArray(){
     char total[1000];
@@ -53,6 +54,22 @@ int** testing::readAsArray(){
         cout << endl;
     }
     return picture;
+}
+
+void interface() {
+    string i;
+    while (true){
+        cout << "Was möchten sie tun? Für alle Befehle drücken Sie: ?"; cin >> i;
+        if (i=="?"){
+            cout << endl << "Die möglichen Befehle sind:" << endl;
+            cout << "readAsArray" << endl << endl;
+        }
+        else if (i=="readAsArray"){
+            testing a;
+            a.readAsArray();
+        }
+
+    }
 }
 
 int main(){}
