@@ -62,7 +62,6 @@ int** GameofLife::read_field()
         int j=0;
         while (j < length){
             for(char& c : str) {
-                cout << c << " ";
                 if (c=='o'){
                     array2D[i][j] = 0;
                 }
@@ -223,6 +222,7 @@ void read_file()
         cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
         cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
         cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
+        cout << "  3    - Feld und Dimensionen in Datei ausgeben" << endl;
         cout << " Exit  - Das Spiel beenden" << endl;
         string eingabe;
         cin>>eingabe;
@@ -231,6 +231,10 @@ void read_file()
             feld.print(new_array);
             cout<<"Neuer Zustand";
             feld.copy(new_array,old_array);
+        }
+        else if (eingabe== "3"){
+            feld.output_field(old_array);
+            cout << "Datei 'output.txt' gespeichert" << endl;
         }
         else if (eingabe == "2") {
             feld.set_dead(old_array);
@@ -261,6 +265,7 @@ void read_input(int laenge, int weite)
         cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
         cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
         cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
+        cout << "  3    - Feld und Dimensionen in Datei ausgeben" << endl;
         cout << " Exit  - Das Spiel beenden" << endl;
         string eingabe;
         cin>>eingabe;
@@ -269,6 +274,10 @@ void read_input(int laenge, int weite)
             feld.print(new_array);
             cout<<"Neuer Zustand";
             feld.copy(new_array,old_array);
+        }
+        else if (eingabe== "3"){
+            feld.output_field(old_array);
+            cout << "Datei 'output.txt' gespeichert" << endl;
         }
         else if (eingabe == "2") {
             feld.set_dead(old_array);
