@@ -59,17 +59,27 @@ int** testing::readAsArray(){
 void interface() {
     string i;
     while (true){
-        cout << "Was möchten sie tun? Für alle Befehle drücken Sie: ?"; cin >> i;
-        if (i=="?"){
+        cout << "Was möchten sie tun? Für alle Befehle geben Sie help ein: "; cin >> i;
+        if (i=="help"){
             cout << endl << "Die möglichen Befehle sind:" << endl;
+            cout << "qqq (beendet das Programm)" << endl;
             cout << "readAsArray" << endl << endl;
         }
         else if (i=="readAsArray"){
             testing a;
             a.readAsArray();
         }
+        else if (i=="qqq"){
+            break;
+        }
+        else{
+            cout << "Ihre Eingabe war ungenau oder fehlerhaft!" << endl << endl;
+            return interface();
+        }
 
     }
 }
 
-int main(){}
+int main(){
+    interface();
+}
