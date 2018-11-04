@@ -108,7 +108,6 @@ void interface() {
             cout<<"Geben Sie Koordinaten:";
             cin>>n>>m;
             bild.write_index(c,n,m,"0");
-            //bild.writeAsArray(c);
             bild.print(c); //Wenn man die  Datei printen moechte
         }
         else{
