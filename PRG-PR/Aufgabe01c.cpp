@@ -8,8 +8,6 @@ class GameofLife
 {
     int width, length;
 public:
-    GameofLife();
-    GameofLife(int, int);
     void print(int**);
     int **generate_2d_array();
     void set_live(int**);
@@ -19,13 +17,16 @@ public:
     void copy(int**,int**);
     void read_size();
     int** read_field();
-    void write_field(int**);
+    void output_field(int**);
+    void set_size(int, int);
 };
 
-GameofLife::GameofLife(int x, int y) {width = x; length = y;}
-GameofLife::GameofLife() {width = 30; length = 30;}
+void GameofLife::set_size(int a, int b)
+{
+    width = a; length = b;
+}
 
-void GameofLife::write_field(int** field)
+void GameofLife::output_field(int** field)
 {
     ofstream exfile;
     exfile.open("output.txt");
@@ -61,7 +62,6 @@ int** GameofLife::read_field()
         int j=0;
         while (j < length){
             for(char& c : str) {
-                cout << c << " ";
                 if (c=='o'){
                     array2D[i][j] = 0;
                 }
@@ -207,40 +207,12 @@ string input ()
         return input();
     }
 }
-GameofLife size_quest()
+
+void read_file()
 {
-    cout << "Deafult Größe ist 30x30.Möchten Sie eine eigene Größe festlegen(y/n)? >>  "<< endl;
-    string i=input();
-    if (i=="N" || i=="n"){
-        GameofLife feld;
-        return feld;
-    }
-    else{
-        cout << "Feld aus Datei Lesen? >>"; string k=input();
-        if  (k=="Y" || k=="y"){
-            GameofLife feld; feld.read_size();
-            return feld;
-        }
-        int j, h; cout << "Länge und Breite in der Form ==> x y?  "; cin >>j>>h; cout << endl;
-        GameofLife feld (j, h);
-        return feld;
-    }
-}
-int** field_quest(GameofLife field)
-{
-    cout << "Haben sie aus Datei lesen gewaelt? >>"; string i=input();
-    if (i=="Y" || i=="y"){
-        return field.read_field();
-    }
-    else{
-        return field.generate_2d_array();
-    }
-}
-int main()
-{
-    cout << "               Wilkommen in THE GAME OF life - Implementation in C++" << endl;
-    GameofLife feld = size_quest();
-    int** old_array = field_quest(feld);
+    GameofLife feld;
+    feld.read_size();
+    int** old_array = feld.read_field();
     int** new_array = feld.generate_2d_array();
     cout << "Matrix wurde erstellt:" << endl;
     feld.print(old_array);
@@ -250,8 +222,7 @@ int main()
         cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
         cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
         cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
-        cout << "  3    - Das Spiel neu starten" << endl;
-        cout << "  4    - Das Feld in Datei ausgeben" << endl;
+        cout << "  3    - Feld und Dimensionen in Datei ausgeben" << endl;
         cout << " Exit  - Das Spiel beenden" << endl;
         string eingabe;
         cin>>eingabe;
@@ -261,18 +232,15 @@ int main()
             cout<<"Neuer Zustand";
             feld.copy(new_array,old_array);
         }
+        else if (eingabe== "3"){
+            feld.output_field(old_array);
+            cout << "Datei 'output.txt' gespeichert" << endl;
+        }
         else if (eingabe == "2") {
             feld.set_dead(old_array);
         }
         else  if (eingabe == "1") {
             feld.set_live(old_array);
-        }
-        else if (eingabe == "3") {
-            main();
-        }
-        else if (eingabe == "4"){
-            feld.write_field(old_array);
-            feld.print(old_array);
         }
         else if ((eingabe == "Exit") || (eingabe == "exit")) {
             a=1;
@@ -281,5 +249,69 @@ int main()
             cout<<"Falsche Eingabe!" << endl;
         }
     }
+}
+
+void read_input(int laenge, int weite)
+{
+    GameofLife feld;
+    feld.set_size(laenge, weite);
+    int** old_array = feld.generate_2d_array();
+    int** new_array = feld.generate_2d_array();
+    cout << "Matrix wurde erstellt:" << endl;
+    feld.print(old_array);
+    int a=0;
+    while (a==0) {
+        cout << "Was möchten Sie jetzt tun:" << endl;
+        cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
+        cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
+        cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
+        cout << "  3    - Feld und Dimensionen in Datei ausgeben" << endl;
+        cout << " Exit  - Das Spiel beenden" << endl;
+        string eingabe;
+        cin>>eingabe;
+        if ((eingabe=="Go") || (eingabe == "go")) {
+            feld.check(old_array, new_array);
+            feld.print(new_array);
+            cout<<"Neuer Zustand";
+            feld.copy(new_array,old_array);
+        }
+        else if (eingabe== "3"){
+            feld.output_field(old_array);
+            cout << "Datei 'output.txt' gespeichert" << endl;
+        }
+        else if (eingabe == "2") {
+            feld.set_dead(old_array);
+        }
+        else  if (eingabe == "1") {
+            feld.set_live(old_array);
+        }
+        else if ((eingabe == "Exit") || (eingabe == "exit")) {
+            a=1;
+        }
+        else {
+            cout<<"Falsche Eingabe!" << endl;
+        }
+    }
+}
+
+int main()
+{
+    cout << "Moechten sie aus einer Datei lesen? >>"; string i=input();
+    if (i=="Y" || i=="y"){
+        read_file();
+    }
+    else {
+        cout << "Eigene Werte? >>"; string h=input();
+        if (h=="Y" || h=="y"){
+            int n, m; cout  << "x y"; cin >> n >> m;
+            read_input(n, m);
+        }
+        else{
+            read_input(30, 30);
+        }
+
+
+    }
     return 0;
 }
+
