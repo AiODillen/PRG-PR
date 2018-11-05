@@ -2,28 +2,31 @@
 
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <string>
-#include <sstream>
+#include <cstdlib>     /* srand, rand */
+
 
 using namespace std;
+
 
 class NBild {
     int width, length;
 public:
-    string** readAsArray();
-    void writeAsArray(string**);
-    void print(string**);
-    void get_size();
-    string read_index(string**,int ,int );
-    string write_index(string**,int ,int,string );
+    string** readAsArray(const string &);
+    void print(string**);//print Befehl,kann man spater loschen
+    void get_size(const string &);
+    void create_key();
+    void code(string**,string**);
+    void decode(string**,string**);
+    string read_index(string**,int ,int );//fur die Aufgabestellung notwendig
+    string write_index(string**,int ,int,string );//fur die Aufgabestellung notwendig
+
 };
-void NBild::get_size()
+void NBild::get_size(const string &i)
 {
     fstream file;
-    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/beispielbild_2.txt");
+    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
     if (!file) {
-        cerr << "Unable to open file beispielbild_1";
+        cerr << "Unable to open file "+i+".txt";
         exit(1);   // call system to stop
     }
     string num;
@@ -31,7 +34,7 @@ void NBild::get_size()
     while(file>>num){
         rows++;
         for (int n=0;n<num.size();n++) {
-            columns=n+1;
+            columns=n;
         }
     }
     width = rows; length = columns;
@@ -47,10 +50,10 @@ void NBild::print(string** array)
     }
     cout << endl;
 }
-string** NBild::readAsArray()
+string** NBild::readAsArray(const string &file_name)
 {
-    fstream file;
-    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/beispielbild_2.txt");
+    ifstream file;
+    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+file_name+".txt");
     string num;
     string ** array2D;
     array2D = new string*[width];
@@ -63,16 +66,55 @@ string** NBild::readAsArray()
     }
     return array2D;
 }
-void NBild::writeAsArray(string** b)
+void NBild::create_key()
 {
-
     ofstream outfile;
-    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/beispielbild_2.txt");
+    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/bild_key.txt");
     for (int x = 0; x < width; x++){
         for (int y = 0; y < length; y++){
-            outfile<<b[x][y];
+
+            int a;
+            a=rand()%2;
+            if (a==1){
+                outfile<<"1";
+            }
+            else{
+                outfile<<"0";
+            }
         }
-    outfile<<endl;
+        outfile<<endl;
+    }
+}
+void NBild::code(string**a,string** b)
+{
+    ofstream outfile;
+    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/bild_coded.txt");
+    for (int x = 0; x < width; x++){
+        for (int y = 0; y < length; y++){
+            if (a[x][y]==b[x][y]){  //XOR Verfahren angewendet fur one time pad!
+                outfile<<"0";
+            }
+            else{
+                outfile<<"1";
+            }
+        }
+        outfile<<endl;
+    }
+}
+void NBild::decode(string**a,string** b)
+{
+    ofstream outfile;
+    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/bild_decoded.txt");
+    for (int x = 0; x < width; x++){
+        for (int y = 0; y < length; y++){
+            if (a[x][y]==b[x][y]){  //XOR Verfahren angewendet fur one time pad!
+                outfile<<"0";
+            }
+            else{
+                outfile<<"1";
+            }
+        }
+        outfile<<endl;
     }
 }
 
@@ -86,29 +128,96 @@ string NBild::write_index(string** array,int a,int b,string value)
     array[a][b]= value;
     return value;
 }
+/*
+class CBild:NBild {
+public:
+    string** block();
+    void print_block(string**);
+};
+void CBild::print_block(string** b)
+{
+    for (int x=0; x<2; x++){
+        for (int y=0; y<2; y++){
+            cout << b[x][y] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+string** CBild::block(){
+    string** matrix;
+    matrix = new string*[2];
+    for (int x = 0; x < 2; x++) {
+        matrix[x]= new string[2];
+        for (int y = 0; y < 2; y++) {
+            if (y>0){
+                if (matrix[x][y-1]=="0"){
+                    matrix[x][y]="1";
+                }
+                else{
+                    matrix[x][y]="0";
+                }
+            }
+            else{
+                if (x>0){
+                    if (matrix[x-1][y]=="0"){
+                        matrix[x][y]="1";
+                    }
+                    else{
+                        matrix[x][y]="0";
+                    }
+                }
+                else{
+                    //srand(time(NULL));         //-- initializes random seed
+                    int a = rand() % 2;//-- generate random integer between 0 and 1
+                    if(a == 0){
+                        cout<<"Block A wird erstellt";
+                        matrix[x][y]='0';
+                    }
+                    else {
+                        cout<<"Block B wird erstellt";
+                        matrix[x][y]="1";
+                    }
+                }
+            }
+
+        }
+    }
+    return matrix;
+}
+*/
 void interface() {
     string i;
+    cout<<"Welche Datei moechten Sie einlesen?"<<endl;
+    cin>>i;
+    string c="bild_key";
+    string d="bild_coded";
+    string e="bild_decoded";
     int a=0;
-    NBild bild;
-    bild.get_size();
+    NBild bild{};
+    bild.get_size(i);
+    string** datei =bild.readAsArray(i);
     while (a==0){
         cout <<"Die möglichen Befehle sind:" << endl;
-        cout << "Read" << endl;
-        cout << "Change"<< endl;
+        cout << "1 --  Schlussel generieren" << endl;
+        cout << "2 --  Datei verschlusseln"<< endl;
+        cout << "3 --  Datei entsschlusseln"<< endl;
         cout << "Exit" << endl;
         cin >> i;
-        if ((i=="Read")||(i=="read")){
-            string** b =bild.readAsArray();
-            bild.writeAsArray(b);
-            bild.print(b);
+        if (i=="1"){
+            bild.create_key();
+            cout<<"Schlussel wurde generiert!"<<endl;
         }
-        else if ((i=="change")||(i=="Change")){
-            string** c =bild.readAsArray();
-            int n,m;
-            cout<<"Geben Sie Koordinaten:";
-            cin>>n>>m;
-            bild.write_index(c,n,m,"0");
-            bild.print(c); //Wenn man die  Datei printen moechte
+        else if (i=="2"){
+            string** key_matrix=bild.readAsArray(c);
+            bild.code(datei,key_matrix);
+            cout<<"Datei Bild_coded wurde  erstellt!"<<endl;
+        }
+        else if (i=="3"){
+            string** key_matrix=bild.readAsArray(c);
+            string** coded_datei = bild.readAsArray(d);
+            bild.decode(coded_datei,key_matrix);
+            cout<<"Datei Bild_decoded wurde  erstellt!"<<endl;
         }
         else{
             a =1;
