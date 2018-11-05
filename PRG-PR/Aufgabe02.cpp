@@ -12,6 +12,7 @@ public:
     void readFile();
     int** readAsArray();
     void interface();
+    int** fileImport();
 
 };
 
@@ -29,7 +30,7 @@ public:
 //}
 
 int** testing::readAsArray(){
-    char total[1000];
+    char total[100000];
     ifstream infile;
     infile.open("beispiel.txt");
     string str;
@@ -63,11 +64,16 @@ void interface() {
         if (i=="help"){
             cout << endl << "Die möglichen Befehle sind:" << endl;
             cout << "qqq (beendet das Programm)" << endl;
+            cout << "fileImport" << endl;
             cout << "readAsArray" << endl << endl;
         }
         else if (i=="readAsArray"){
             testing a;
             a.readAsArray();
+        }
+        else if (i=="fileImport"){
+            testing a;
+            a.fileImport();
         }
         else if (i=="qqq"){
             break;
@@ -78,6 +84,35 @@ void interface() {
         }
 
     }
+}
+
+int** testing::fileImport(){
+    ifstream infile;
+    infile.open("charSwap.txt");
+    int num;
+    int ** pic;
+    pic = new int*[89];
+    for (int i = 0; i < 89; i++){
+        infile >> num;
+        pic[i]= new int[304];
+        int j=0;
+        while (j < 304){
+
+            for(char& c : num){
+                cout << c << "";
+                break;
+                if (c=='0'){
+                    pic[i][j] = 0;
+                }
+                else if (c=='1'){
+                    pic[i][j] = 1;
+                }
+                j++;
+            }
+        }
+        cout << endl;
+    }
+    return pic;
 }
 
 int main(){
