@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include <iostream>
-#include <cstdlib>     /* srand, rand */
+#include <cstdlib>
 #include <time.h>
 
 using namespace std;
@@ -24,10 +24,6 @@ int NBild::get_width(const string &i)
 {
     fstream file;
     file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
-    if (!file) {
-        cerr << "Leider existiert der  "+i+".txt nicht";
-        exit(1);   // call system to stop
-    }
     string num;
     int rows=0;
     while(file>>num){
@@ -197,7 +193,8 @@ void CBild::decode(string**a,string** b,string** c)
         }
     }
 }
-void visualcrypt(string file_name){
+void visualcrypt(string file_name)
+{
     cout<<"Visualcrypt ist gestartet"<<endl;
     string i = file_name;
     string c=i+"_key";
@@ -238,7 +235,6 @@ void visualcrypt(string file_name){
         }
     }
 }
-
 string random_bild(int rows,int columns)
 {
     cout<<"Geben sie einer Name fur  Bild: "<<endl;
