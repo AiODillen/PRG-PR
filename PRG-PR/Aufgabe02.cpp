@@ -20,7 +20,8 @@ public:
 
 
 };
-int NBild::get_width(const string &i)//get the number of rows
+int NBild::get_width(const string &i)
+//get the number of rows
 {
     fstream file;
     file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
@@ -32,7 +33,8 @@ int NBild::get_width(const string &i)//get the number of rows
     width = rows;
     return width;
 }
-int NBild::get_length(const string &i)//get the number of  columns of array
+int NBild::get_length(const string &i)
+//get the number of  columns of array
 {
     fstream file;
     file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
@@ -46,7 +48,8 @@ int NBild::get_length(const string &i)//get the number of  columns of array
     length = columns;
     return length;
 }
-string** NBild::readAsArray(const string &file_name)//save Adress of elements from  file in a 2-Dimensional Array
+string** NBild::readAsArray(const string &file_name)
+//save Adress of elements from  file in a 2-Dimensional Array
 {
     ifstream file;
     file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+file_name+".txt");
@@ -62,7 +65,8 @@ string** NBild::readAsArray(const string &file_name)//save Adress of elements fr
     }
     return array2D;
 }
-string** NBild::overlay(string** a,string** b)//Overlay of elements from  2 different files  and  save them in 2D Array
+string** NBild::overlay(string** a,string** b)
+//Overlay of elements from  2 different files  and  save them in 2D Array
 {
     string** array2D;
     array2D = new string*[width];
@@ -80,7 +84,8 @@ string** NBild::overlay(string** a,string** b)//Overlay of elements from  2 diff
     }
     return array2D;
 }
-void  NBild::writeAsArray(string** b, const string &i)//Save elements of  an 2D array in a file
+void  NBild::writeAsArray(string** b, const string &i)
+//Save elements of  an 2D array in a file
 {
     ofstream outfile;
     outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
@@ -91,7 +96,8 @@ void  NBild::writeAsArray(string** b, const string &i)//Save elements of  an 2D 
         outfile<<endl;
     }
 }
-string NBild::read_index(string** array,int a,int b)//read of a  value  on predefined position from an 2D array
+string NBild::read_index(string** array,int a,int b)
+//read of a  value  on predefined position from an 2D array
 {
     string value= array[a-1][b-1];;
     return value;
@@ -113,12 +119,14 @@ public:
     void decode(string**,string**,string**);
 
 };
-void CBild::get_size(int a,int b)//save new  values based on Dimension of normal file
+void CBild::get_size(int a,int b)
+//save new  values based on Dimension of normal file
 {
     rows = a*2;
     columns = b*2;
 }
-string** CBild::create_matrix_key()//create new 2D Array with rows and columns and default  value 0
+string** CBild::create_matrix_key()
+//create new 2D Array with rows and columns and default  value 0
 {
     string** array2D;
     array2D = new string*[rows];
@@ -130,7 +138,8 @@ string** CBild::create_matrix_key()//create new 2D Array with rows and columns a
     }
     return array2D;
 }
-void CBild::create_block_key(string** key)//creates random key in the form of Blocks like A or B
+void CBild::create_block_key(string** key)
+//creates random key in the form of Blocks like A or B
 {
     for (int x = 0; x < rows; x+= 2) {
         for (int y = 0; y < columns; y+= 2){
@@ -150,7 +159,8 @@ void CBild::create_block_key(string** key)//creates random key in the form of Bl
         }
     }
 }
-void  CBild::writeAsArray(string** b, const string &i)//copy the values of 2D array in a txt file
+void  CBild::writeAsArray(string** b, const string &i)
+//copy the values of 2D array in a txt file
 {
     ofstream outfile;
     outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
@@ -161,7 +171,8 @@ void  CBild::writeAsArray(string** b, const string &i)//copy the values of 2D ar
         outfile<<endl;
     }
 }
-void CBild::code(string**a,string** b,string** c)//Decoding of Image  with Key
+void CBild::code(string**a,string** b,string** c)
+//Decoding of Image  with Key
 {
     int n=0,m=0;
     for (int x = 0; x < rows; x+=2){
@@ -186,7 +197,8 @@ void CBild::code(string**a,string** b,string** c)//Decoding of Image  with Key
 
     }
 }
-void CBild::decode(string**a,string** b,string** c)//Encoding of decoded Image and key
+void CBild::decode(string**a,string** b,string** c)
+//Encoding of decoded Image and key
 {
     for (int x = 0; x < rows; x+=2){
         for (int y = 0; y < columns; y+=2){
@@ -320,7 +332,8 @@ int main()
         main();
     }
 }
-void visualcrypt(string i)//Visualcrypt function for 1 File
+void visualcrypt(string i)
+//Visualcrypt function for 1 File
 {
     cout<<"Visualcrypt ist gestartet"<<endl;
     string c=i+"_key";
@@ -366,7 +379,8 @@ void visualcrypt(string i)//Visualcrypt function for 1 File
     }
     main();
 }
-void visualcrypt_2files(string i,string g)//Visualcrypt function for 2 File
+void visualcrypt_2files(string i,string g)
+//Visualcrypt function for 2 File
 {
 
     NBild file;
