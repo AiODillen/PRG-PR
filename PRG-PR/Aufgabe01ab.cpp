@@ -6,7 +6,7 @@
 //  Copyright © 2018 Niklas. All rights reserved.
 //
 #include <stdlib.h>     /* srand, rand */
-#include <time.h>
+#include <time.h>  //for better RNG
 #include <iostream>
 #include <cstring>      // memcpy
 
