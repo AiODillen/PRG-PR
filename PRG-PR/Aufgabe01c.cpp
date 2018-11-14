@@ -4,7 +4,9 @@
 
 using namespace std;  //only/standard namespace used
 
-class GameofLife  // main classed used for the game
+int check_int();
+
+class GameofLife  // main class used for the game
 {
     int width, length; // private variables used for the field size
 public:
@@ -120,13 +122,12 @@ void GameofLife::print(int** array)
 void GameofLife::set_live(int** myarray)
 //sets a given number of cells alive
 {
-    int n, m,l;
     cout << "Geben Sie Anzahl der zu setzenden lebende Zellen ein >>";
-    cin >> l;
+    int l = check_int();
     for (int i = 0; i < l; i++) {
-        cout << "Geben Sie die Koordinaten in der Form ein==>x y(wobei x Zeile und y Spalte entspricht)";
-        cin >> n>> m;
-        myarray[n-1][m-1]=1;
+        cout << "Geben Sie die x-Koordinate ein >>"; int n = check_int();
+        cout << "Geben sie die y-Koordinate ein >>"; int m = check_int();
+        myarray[n-1][m-1]=1;  // sets n,m alive
         cout<<"Es wurde eine lebende Zellen an Position("<<n<<","<<m<<" erstellt)"<<endl;
     }
     cout <<"Aktueller Zustand:";
@@ -135,12 +136,11 @@ void GameofLife::set_live(int** myarray)
 void GameofLife::set_dead(int** myarray)
 //sets a given number of cells dead
 {
-    int n, m,l;
     cout << "Geben Sie Anzahl der zu setzenden toten Zellen ein >>";
-    cin >> l;
+    int l = check_int();
     for (int i = 0; i < l; i++) {
-        cout << "Geben Sie die Koordinaten in der Form ein ==>x y(wobei x Zeile und y Spalte entspricht)";
-        cin >> n>> m;
+        cout << "Geben Sie die x-Koordinate ein >>"; int n = check_int();
+        cout << "Geben sie die y-Koordinate ein >>"; int m = check_int();
         myarray[n-1][m-1]=0;
         cout<<"Es wurde eine tote Zelle an Position("<<n<<","<<m<<" erstellt)"<<endl;
     }
@@ -208,6 +208,18 @@ void GameofLife::copy(int** myarray,int** myarray2)
         }
     }
 }
+int check_int()
+ {
+   int x;
+    cin >> x;
+    while(cin.fail()) {  //checks for TypeError
+        cout << "Kein Integer" << endl;
+        cin.clear();
+        cin.ignore(256,'\n');  // ignores TypeError
+        cin >> x;
+    }
+    return x;
+ }
 
 string input ()
 //checks for yes no input
@@ -319,7 +331,8 @@ int main()
     else {
         cout << "Eigene Werte fuer Groesse des Feldes angeben? >>"; string h=input();
         if (h=="Y" || h=="y"){
-            int n, m; cout  << "Format 'x-Koordinate y-Koordinate' eingeben >>"; cin >> n >> m;
+            cout << "Geben sie die Breite des Feldes als Integer an >>"; int n = check_int();
+            cout << "Geben sie die Hoehe des Feldes als Integer an >>"; int m = check_int();
             read_input(n, m);
         }
         else{
