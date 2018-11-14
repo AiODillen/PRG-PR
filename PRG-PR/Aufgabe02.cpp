@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 class NBild {
 public:
     int width, length;
