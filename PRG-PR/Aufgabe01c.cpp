@@ -1,12 +1,12 @@
-#include <iostream>
-#include <fstream>
-#include <string.h>
+#include <iostream>  // for in-/output
+#include <fstream>   // for opening files
+//#include <string.h>  // for reading from file
 
-using namespace std;
+using namespace std;  //only/standard namespace used
 
-class GameofLife
+class GameofLife  // main classed used for the game
 {
-    int width, length;
+    int width, length; // private variables used for the field size
 public:
     void print(int**);
     int **generate_2d_array();
@@ -22,16 +22,18 @@ public:
 };
 
 void GameofLife::set_size(int a, int b)
+// function to access and edit the private size variable
 {
     width = a; length = b;
 }
 
 void GameofLife::output_field(int** field)
+// prints the current field and dimensions to a textfile
 {
     ofstream exfile;
-    exfile.open("output.txt");
+    exfile.open("output.txt"); // opens the output file/creates it
     cout << endl;
-    exfile << length << endl << width << endl;
+    exfile << length << endl << width << endl; // writes dimensions in the first two lines
     for (int x=0; x<width; x++){
         for (int y=0; y<length; y++){
             if (field[x][y]==0){
@@ -39,26 +41,27 @@ void GameofLife::output_field(int** field)
             }
             else if (field[x][y]==1){
                 exfile << '*';
-            }
+            } //prints every point of the line to the file
         }
-        exfile << endl;
+        exfile << endl;  //proceeds to the next line
     }
     cout << endl;
 
 }
 int** GameofLife::read_field()
+//reads a given field with dimensions from a textfile
 {
     char trash[100];
     ifstream infile;
     infile.open("feld.txt");
     infile >> trash;
-    infile >> trash;
+    infile >> trash;  //cuts the dimension inputs from the file
     string str;
-    int ** array2D;
-    array2D = new int*[width];
+    int** array2D; //creates double-pointer to a new array
+    array2D = new int*[width];  //creates first dimension
     for (int i = 0; i < width; i++) {
         infile >> str;
-        array2D[i]= new int[length];
+        array2D[i]= new int[length];  //creates second dimension
         int j=0;
         while (j < length){
             for(char& c : str) {
@@ -69,7 +72,7 @@ int** GameofLife::read_field()
                     array2D[i][j] = 1;
                 }
                 j++;
-            }
+            } //filld array with data depending on input
                 }
             cout << endl;
         }
@@ -78,6 +81,7 @@ int** GameofLife::read_field()
 
 
 void GameofLife::read_size()
+//reads size of input files' field
 {
     int width_file, length_file;
     ifstream infile;
@@ -87,8 +91,10 @@ void GameofLife::read_size()
     infile >> length_file;
     length = length_file;
 }
-int** GameofLife::generate_2d_array() {
-    int ** array2D;
+int** GameofLife::generate_2d_array()
+//creates array with 0s depending on size
+{
+    int** array2D;
     array2D = new int*[width];
     for (int i = 0; i < width; i++) {
         array2D[i]= new int[length];
@@ -100,6 +106,7 @@ int** GameofLife::generate_2d_array() {
 }
 
 void GameofLife::print(int** array)
+//prints current field in the console
 {
     cout << endl;
     for (int x=0; x<width; x++){
@@ -111,35 +118,38 @@ void GameofLife::print(int** array)
     cout << endl;
 }
 void GameofLife::set_live(int** myarray)
+//sets a given number of cells alive
 {
     int n, m,l;
-    cout << "Geben Sie Anzahl der lebende Zellen ein:";
+    cout << "Geben Sie Anzahl der zu setzenden lebende Zellen ein >>";
     cin >> l;
     for (int i = 0; i < l; i++) {
-        cout << "Geben Sie die Koordinaten  in der Form ein==>x y(wobei x Zeile und y Spalte entspricht)";
+        cout << "Geben Sie die Koordinaten in der Form ein==>x y(wobei x Zeile und y Spalte entspricht)";
         cin >> n>> m;
         myarray[n-1][m-1]=1;
-        cout<<"Es wurde lebende Zelle mit  Position("<<n<<","<<m<<" erstellt)"<<endl;
+        cout<<"Es wurde eine lebende Zellen an Position("<<n<<","<<m<<" erstellt)"<<endl;
     }
     cout <<"Aktueller Zustand:";
     print(myarray);
 }
 void GameofLife::set_dead(int** myarray)
+//sets a given number of cells dead
 {
     int n, m,l;
-    cout << "Geben Sie Anzahl der toten Zellen ein:";
+    cout << "Geben Sie Anzahl der zu setzenden toten Zellen ein >>";
     cin >> l;
     for (int i = 0; i < l; i++) {
-        cout << "Geben Sie die Koordinaten  in der Form ein ==>x y(wobei x Zeile und y Spalte entspricht)";
+        cout << "Geben Sie die Koordinaten in der Form ein ==>x y(wobei x Zeile und y Spalte entspricht)";
         cin >> n>> m;
         myarray[n-1][m-1]=0;
-        cout<<"Es wurde tote Zelle mit  Position("<<n<<","<<m<<" erstellt)"<<endl;
+        cout<<"Es wurde eine tote Zelle an Position("<<n<<","<<m<<" erstellt)"<<endl;
     }
     cout <<"Aktueller Zustand:";
     print(myarray);
 }
 
 int GameofLife::counter(int** myarray,int a,int b)
+//counts the living neighbors of a cell
 {
     int c=0;
     for (int i = a-1; i <= a+1; i++) {
@@ -157,10 +167,12 @@ int GameofLife::counter(int** myarray,int a,int b)
 }
 
 void GameofLife::check(int** myarray,int** myarray2)
+//checks the condition of a cell in the next step depending on number of neighbors
+//in the first step and sets their value in the next step
 {
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < length; j++) {
-            int c=counter(myarray,i,j);
+            int c=counter(myarray,i,j);  //counts the neighbors
             if (myarray[i][j]==1){
                 if ((c==3)||(c==2)){
                     myarray2[i][j]=1;
@@ -188,6 +200,7 @@ void GameofLife::check(int** myarray,int** myarray2)
     }
 }
 void GameofLife::copy(int** myarray,int** myarray2)
+//copys array 1 into array 2
 {
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < length; j++) {
@@ -197,6 +210,7 @@ void GameofLife::copy(int** myarray,int** myarray2)
 }
 
 string input ()
+//checks for yes no input
 {
     string inp; cin >> inp;
     if (inp=="Y" || inp=="y" || inp=="N" || inp=="n"){
@@ -209,32 +223,33 @@ string input ()
 }
 
 void read_file()
+//continues with the programm reading all data from a file
 {
-    GameofLife feld;
-    feld.read_size();
-    int** old_array = feld.read_field();
-    int** new_array = feld.generate_2d_array();
-    cout << "Matrix wurde erstellt:" << endl;
-    feld.print(old_array);
+    GameofLife feld;  //create object
+    feld.read_size();   //set the size of the field from file
+    int** old_array = feld.read_field();  //sets field from file
+    int** new_array = feld.generate_2d_array();  //empty array
+    cout << "Feld wurde erstellt:" << endl;
+    feld.print(old_array);  //prints current array
     int a=0;
-    while (a==0) {
-        cout << "Was möchten Sie jetzt tun:" << endl;
+    while (a==0) {  //starts interface
+        cout << "Was moechten Sie jetzt tun? >>" << endl;
         cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
         cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
         cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
         cout << "  3    - Feld und Dimensionen in Datei ausgeben" << endl;
         cout << " Exit  - Das Spiel beenden" << endl;
         string eingabe;
-        cin>>eingabe;
+        cin>>eingabe;  //continues with input command
         if ((eingabe=="Go") || (eingabe == "go")) {
-            feld.check(old_array, new_array);
-            feld.print(new_array);
-            cout<<"Neuer Zustand";
-            feld.copy(new_array,old_array);
+            feld.check(old_array, new_array);  //calculates next step
+            feld.print(new_array);  //output new field after step
+            cout<<"Neuer Zustand:";
+            feld.copy(new_array,old_array);  //sets the new array the current array
         }
         else if (eingabe== "3"){
-            feld.output_field(old_array);
-            cout << "Datei 'output.txt' gespeichert" << endl;
+            feld.output_field(old_array);  //prints data to file
+            cout << "Feld in Datei 'output.txt' gespeichert" << endl;
         }
         else if (eingabe == "2") {
             feld.set_dead(old_array);
@@ -252,19 +267,20 @@ void read_file()
 }
 
 void read_input(int laenge, int weite)
+//starts the game with user input size and field
 {
-    GameofLife feld;
-    feld.set_size(laenge, weite);
+    GameofLife feld;  //initialize object
+    feld.set_size(laenge, weite);  //set size by user input
     int** old_array = feld.generate_2d_array();
     int** new_array = feld.generate_2d_array();
-    cout << "Matrix wurde erstellt:" << endl;
+    cout << "Feld wurde erstellt:" << endl;
     feld.print(old_array);
     int a=0;
     while (a==0) {
-        cout << "Was möchten Sie jetzt tun:" << endl;
-        cout << " Go    - Das Spiel starten/um eine Zeiteinheit" << endl;
-        cout << "  1    - Lebende Zellen  setzen/?ndern" << endl;
-        cout << "  2    - Tote Zellen  setzen/?ndern" << endl;
+        cout << "Was moechten Sie jetzt tun? >>" << endl;
+        cout << " Go    - Einen Zeitschritt durchfuehren" << endl;
+        cout << "  1    - Lebende Zellen  setzen/aendern" << endl;
+        cout << "  2    - Tote Zellen setzen/aendern" << endl;
         cout << "  3    - Feld und Dimensionen in Datei ausgeben" << endl;
         cout << " Exit  - Das Spiel beenden" << endl;
         string eingabe;
@@ -277,7 +293,7 @@ void read_input(int laenge, int weite)
         }
         else if (eingabe== "3"){
             feld.output_field(old_array);
-            cout << "Datei 'output.txt' gespeichert" << endl;
+            cout << "Feld in Datei 'output.txt' gespeichert" << endl;
         }
         else if (eingabe == "2") {
             feld.set_dead(old_array);
@@ -301,17 +317,16 @@ int main()
         read_file();
     }
     else {
-        cout << "Eigene Werte? >>"; string h=input();
+        cout << "Eigene Werte fuer Groesse des Feldes angeben? >>"; string h=input();
         if (h=="Y" || h=="y"){
-            int n, m; cout  << "x y"; cin >> n >> m;
+            int n, m; cout  << "Format 'x-Koordinate y-Koordinate' eingeben >>"; cin >> n >> m;
             read_input(n, m);
         }
         else{
-            read_input(30, 30);
+            read_input(30, 30);  //sets size 30x30 by default
         }
 
 
     }
     return 0;
 }
-
