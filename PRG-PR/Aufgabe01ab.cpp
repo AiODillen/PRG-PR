@@ -1,16 +1,9 @@
-//
-//  main.cpp
-//  Milestone1 1a,b
-//
-//  Created by Niklas on 19.10.18.
-//  Copyright © 2018 Niklas. All rights reserved.
-//
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>  //for better RNG
-#include <iostream>
-#include <cstring>      // memcpy
+#include <stdlib.h>     // enables RNG
+#include <time.h>  //for better RNG based on time
+#include <iostream>  //console in-/output
+#include <cstring>      // for copying
 
-using namespace std;
+using namespace std;  //standard namespace used
 
 void copy(int arraya[][30], int arrayb[]);
 
@@ -24,19 +17,20 @@ void interface();
 
 int main()
 {
-    srand(time(0));
+    srand(time(0));  //initializes the RNG
     interface();
     return 0;
 }
 
 void print_array1(int array[], int length)
+//prints the 1D array
 {
     cout << endl;
     int m=0;
     for (int n=0; n<length; n++){
         m+=1;
         cout << array[n] << " ";
-        if (m==30){
+        if (m==30){  //beginns new line after 30 characters to match the 2D array
             cout << endl;
             m=0;
         }
@@ -45,33 +39,37 @@ void print_array1(int array[], int length)
 }
 
 void print_array2(int array[][30])
+//prints 2D array
 {
     cout << endl;
     for (int x=0; x<30; x++){
         for (int y=0; y<30; y++){
             cout << array[x][y] << " ";
         }
-        cout << endl;
+        cout << endl;  // new line after 30 chars to get matrix look
     }
     cout << endl;
 }
 
 void copy(int arraya[][30], int arrayb[])
+//Takes the recieving array; the source array; the length times the data size
+//in the recieving array
 {
     memcpy(arrayb, arraya, 900*sizeof(int));
 }
 
 void generate_2d_array(int array[][30])
+//fills 2D array with random digits from 0-9
 {
     for (int x=0; x<30; x++){
         for (int y=0; y<30; y++){
-            array[x][y] = rand()%10;
+            array[x][y] = rand()%10;  //mod10 to only get 0-9
         }
     }
 }
 void interface()
 {
-    int array2d [30][30]; int* array1d = new int [900];
+    int array2d [30][30]; int* array1d = new int [900];  //initializes arrays
     string i; cout << "(Für eine Liste an Befehlen (? oder help) eingeben." << endl;
     while (true){
         cout << "Welche Aktion ausführen? >>"; cin >> i;

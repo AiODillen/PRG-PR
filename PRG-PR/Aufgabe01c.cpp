@@ -155,6 +155,8 @@ int GameofLife::counter(int** myarray,int a,int b)
     for (int i = a-1; i <= a+1; i++) {
         for (int j = b-1; j <= b+1; j++) {
             if ((myarray[(width+i)%width][(length+j)%length]==1)&&(i != a || j != b))
+            //checks if there are neighbors; %length also checks on the opposing side
+            //of the field if the target cell is on the edge of the fied
             {
                 c+=1;
             }
@@ -173,7 +175,7 @@ void GameofLife::check(int** myarray,int** myarray2)
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < length; j++) {
             int c=counter(myarray,i,j);  //counts the neighbors
-            if (myarray[i][j]==1){
+            if (myarray[i][j]==1){  //changes cell depending on the counter
                 if ((c==3)||(c==2)){
                     myarray2[i][j]=1;
                 }
@@ -200,7 +202,7 @@ void GameofLife::check(int** myarray,int** myarray2)
     }
 }
 void GameofLife::copy(int** myarray,int** myarray2)
-//copys array 1 into array 2
+//copys the new array into the old one
 {
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < length; j++) {
