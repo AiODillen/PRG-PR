@@ -24,7 +24,7 @@ int NBild::get_width(const string &i)
 //get the number of rows
 {
     fstream file;
-    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
+    file.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01"+i+".txt");
     string num;
     int rows=0;
     while(file>>num){
@@ -37,7 +37,7 @@ int NBild::get_length(const string &i)
 //get the number of  columns of array
 {
     fstream file;
-    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
+    file.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01"+i+".txt");
     string num;
     int columns=0;
     while(file>>num){
@@ -52,7 +52,7 @@ string** NBild::readAsArray(const string &file_name)
 //save Adress of elements from  file in a 2-Dimensional Array
 {
     ifstream file;
-    file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+file_name+".txt");
+    file.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01"+file_name+".txt");
     string num;
     string ** array2D;
     array2D = new string*[width];
@@ -88,7 +88,7 @@ void  NBild::writeAsArray(string** b, const string &i)
 //Save elements of  an 2D array in a file
 {
     ofstream outfile;
-    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
+    outfile.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01"+i+".txt");
     for (int x = 0; x < width; x++){
         for (int y = 0; y < length; y++){
             outfile<<b[x][y];
@@ -163,7 +163,7 @@ void  CBild::writeAsArray(string** b, const string &i)
 //copy the values of 2D array in a txt file
 {
     ofstream outfile;
-    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+i+".txt");
+    outfile.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01"+i+".txt");
     for (int x = 0; x < rows; x++){
         for (int y = 0; y < columns; y++){
             outfile<<b[x][y];
@@ -231,7 +231,7 @@ string random_bild(int rows,int columns)
     string a;
     cin>>a;
     ofstream outfile;
-    outfile.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/"+a+".txt");
+    outfile.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01"+a+".txt");
     string array2D[rows][columns];
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -275,7 +275,7 @@ int main()
             cout<<"Geben Sie der Name des Bildes ein:"<<endl;
             cin>>file_name;
             fstream file;
-            file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/" + file_name + ".txt");
+            file.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01" + file_name + ".txt");
             if (!file) {//check if  File exists
                 cerr << "Leider existiert der  " + file_name + ".txt nicht";
                 cout<<endl;
@@ -294,7 +294,7 @@ int main()
             cout<<"Geben Sie der Name des Bildes ein:"<<endl;
             cin>>file_name;
             fstream file;
-            file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/" + file_name + ".txt");
+            file.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01" + file_name + ".txt");
             if (!file) {
                 cerr << "Leider existiert der  " + file_name + ".txt nicht";
                 cout<<endl;
@@ -310,7 +310,7 @@ int main()
             cout<<"Geben Sie der Name des zweiten  Bildes ein:"<<endl;
             cin>>file_name2;
             fstream file;
-            file.open("C:/Users/Sorin/CLionProjects/PRG-PR/PRG-PR/" + file_name2 + ".txt");
+            file.open("/Users/niklasdillenberger/github/PRG-PR/PRG-PR/Milestone01" + file_name2 + ".txt");
             if (!file) {
                 cerr << "Leider existiert der  " + file_name2 + ".txt nicht";
                 cout<<endl;
