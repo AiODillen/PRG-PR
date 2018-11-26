@@ -4,7 +4,9 @@
 #include <time.h>
 #include <iostream>
 #include <numeric>
+#include  <cmath>
 #include<QMessageBox>
+#define PI 3.14159265
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,7 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->plot->addGraph();
-    ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle));
+    ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc));
+    ui->plot->graph(0)->setPen(QPen(Qt::blue));
     ui->plot->graph(0)->setLineStyle(QCPGraph::lsNone);//No line connecting points
     ui->plot->addGraph(ui->plot->xAxis, ui->plot->yAxis);
     ui->plot->graph(1)->setLineStyle(QCPGraph::lsNone);//No line connecting points
@@ -54,12 +57,15 @@ void MainWindow::plot()
 
 void MainWindow::middlePoint(double n, double m,int number)
 {
-    int circle_points=2.5*number;
-    qDebug()<<n<<m;
-    for (int x=0;x<circle_points;x++){
-        qv_n.append((0.5*cos((360/circle_points)*x))+n);
-        qv_m.append((0.5*sin((360/circle_points)*x))+m);
+    double circle_points=floor(2.5*number);
+    for (double i=0;i<circle_points;i++){
+        double xDegrees = 360/circle_points*(i+1);
+        double x = xDegrees*3.14159/180;
+        qv_n.append(0.5*cos(x)+n);
+        qv_m.append(0.5*sin(x)+m);
     }
+    qDebug()<<n<<m;
+    qDebug()<<qv_n<<qv_m;
 }
 
 double MainWindow::middlePoint_x()
@@ -85,7 +91,7 @@ double MainWindow::middlePoint_y()
 
 void MainWindow::on_btn_random_clicked()
 {
-    srand(time(0));
+    srand(time(nullptr));
     int random_cities=ui->number_cities->value();
     for (int i=0;i<random_cities;i++){
         addPoint(((double)rand() / RAND_MAX) * 5,((double)rand() / RAND_MAX) * 5);//add points randomly
@@ -110,6 +116,7 @@ void MainWindow::clickedGraph(QMouseEvent *event)
     addPoint(ui->plot->xAxis->pixelToCoord(point.x()),ui->plot->yAxis->pixelToCoord(point.y()));
     middlePoint(middlePoint_x(),middlePoint_y(),clicks_counter.count());
     plot();
+    qDebug()<<qv_n<<qv_m;
     clearData2();
 }
 
