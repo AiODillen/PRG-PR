@@ -89,6 +89,7 @@ double MainWindow::middlePoint_y()
 
 void MainWindow::new_coordinates()
 {
+    qDebug() << "qvn" << qv_n.size();
     for(int a=0;a<qv_n.size();a++){
         new_n.append(qv_n[a]+delta_n(a, 1));
         new_m.append(qv_m[a]+delta_n(a, 2)) ;
@@ -99,6 +100,8 @@ void MainWindow::new_coordinates()
     ui->plot->graph(0)->setData(qv_x,qv_y);
     ui->plot->replot();
     ui->plot->update();
+    qv_n = new_n;
+    qv_m = new_m;
 
 }
 
@@ -109,10 +112,19 @@ double MainWindow::delta_n(int a, int z)
     double alfa=1;double beta=1;
     double summe=0;
     for (int i=0;i<vec_c.size();i++){
-        summe +=v_i_a(i,a,z)*((vec_c[i]-vec_r[i]));
+        qDebug() << "csize" << vec_c.size() << i;
+        qDebug() << "rsize" << vec_r.size() << a;
+        summe +=v_i_a(i,a,z)*((vec_c[i]-vec_r[a]));
+        qDebug() << "Summme" << summe;
     }
-    double delta=alfa*summe+beta*K_von_n(a)*(vec_r[(a-1)%vec_r.size()]+vec_r[a]-2*vec_r[(a+1)%vec_r.size()]);
-
+    qDebug() << "BREAK";
+    //qDebug() << "ra-1" << vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()];
+    //qDebug() << "ra" << vec_r[a];
+    //qDebug() << "ra+1" << vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()];
+    qDebug() << K_von_n(a);
+    double delta=alfa*summe+beta*K_von_n(a)*(vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()]
+            +vec_r[a]-2*vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()]);
+    qDebug() << "Delta" << delta;
     return delta;
 }
 
@@ -122,10 +134,11 @@ double MainWindow::v_i_a(int i,int a,int z)
     QVector<double> vec_r=(z>1)?qv_m:qv_n;
     double summ=0;
     for (int k=0;k<qv_n.size();k++){
-        summ+=exp(-1*(pow((vec_c[i]-vec_r[k]),2))/T_von_n(a));
+        summ+=exp((-1)*(pow(abs(vec_c[i]-vec_r[k]), 2))/T_von_n(a));
 
     }
-    double v_i_a=(exp(-1*(pow((vec_c[i]-vec_r[a]),2))/T_von_n(a)))/summ;
+    double v_i_a=(exp((-1)*(pow(abs(vec_c[i]-vec_r[a]),2))/T_von_n(a)))/summ;
+    qDebug() << "via " << v_i_a;
     return v_i_a;
 
 }
