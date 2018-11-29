@@ -91,8 +91,19 @@ void MainWindow::new_coordinates()
 {
     qDebug() << "qvn" << qv_n.size();
     for(int a=0;a<qv_n.size();a++){
-        new_n.append(qv_n[a]+delta_n(a, 1));
-        new_m.append(qv_m[a]+delta_n(a, 2)) ;
+        QVector<double> abstand;  //Sucht den klenstan abstand zur nächsten stadt und vergleicht ihn mit 0.1(n ziel)
+        abstand.clear();
+        for(int i=0; i<qv_x.size(); i++){
+            abstand.append(pow((pow((qv_x[i]-qv_n[a]), 2)), 0.5));
+        }
+        if(*std::min_element(abstand.begin(), abstand.end()) <= 0.1){
+            new_n.append(qv_n[a]);
+            new_m.append(qv_m[a]);
+        }
+        else{
+            new_n.append(qv_n[a]+delta_n(a, 1));
+            new_m.append(qv_m[a]+delta_n(a, 2));
+        }
     }
     clearData2();
     qDebug()<<new_n;
