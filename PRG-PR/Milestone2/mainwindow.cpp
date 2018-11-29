@@ -89,13 +89,13 @@ double MainWindow::middlePoint_y()
 
 void MainWindow::new_coordinates()
 {
-    qDebug() << "qvn" << qv_n.size();
     for(int a=0;a<qv_n.size();a++){
         QVector<double> abstand;  //Sucht den klenstan abstand zur nächsten stadt und vergleicht ihn mit 0.1(n ziel)
         abstand.clear();
         for(int i=0; i<qv_x.size(); i++){
-            abstand.append(pow((pow((qv_x[i]-qv_n[a]), 2)), 0.5));
+            abstand.append(pow((pow((qv_x[i]-qv_n[a]), 2)+pow((qv_y[i]-qv_m[a]), 2)), 0.5));
         }
+        qDebug() << "abstand" << abstand;
         if(*std::min_element(abstand.begin(), abstand.end()) <= 0.1){
             new_n.append(qv_n[a]);
             new_m.append(qv_m[a]);
@@ -106,7 +106,6 @@ void MainWindow::new_coordinates()
         }
     }
     clearData2();
-    qDebug()<<new_n;
     ui->plot->graph(1)->setData(new_n,new_m);
     ui->plot->graph(0)->setData(qv_x,qv_y);
     ui->plot->replot();
@@ -126,12 +125,14 @@ double MainWindow::delta_n(int a, int z)
     double alfa=1;double beta=1;
     double summe=0;
     for (int i=0;i<vec_c.size();i++){
-        qDebug() << "csize" << vec_c.size() << i;
-        qDebug() << "rsize" << vec_r.size() << a;
+        //qDebug() << "csize" << vec_c.size() << i;
+        //qDebug() << "rsize" << vec_r.size() << a;
+        qDebug() << "a" << a << "i" << i;
+        qDebug() <<  "vec_ci" << vec_c[i];
+        qDebug() << "vec_ra" << vec_r[a];
         summe +=v_i_a(i,a,z)*((vec_c[i]-vec_r[a]));
-        qDebug() << "Summme" << summe;
     }
-    qDebug() << "BREAK";
+    //qDebug() << "BREAK";
     //qDebug() << "ra-1" << vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()];
     //qDebug() << "ra" << vec_r[a];
     //qDebug() << "ra+1" << vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()];
