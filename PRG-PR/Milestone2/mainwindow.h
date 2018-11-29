@@ -36,6 +36,7 @@ private slots:
     void on_btn_start_clicked();
 
 private:
+    int iters;
     Ui::MainWindow *ui;
     QVector<double>qv_x,qv_y;
     QVector<double>qv_n,qv_m;

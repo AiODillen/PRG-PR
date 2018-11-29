@@ -115,6 +115,7 @@ void MainWindow::new_coordinates()
     new_n.clear();
     qv_m = new_m;
     new_m.clear();
+    iters += 1;
 
 }
 
@@ -135,7 +136,7 @@ double MainWindow::delta_n(int a, int z)
     //qDebug() << "ra" << vec_r[a];
     //qDebug() << "ra+1" << vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()];
     qDebug() << K_von_n(a);
-    double delta=alfa*summe+beta*K_von_n(a)*(vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()]
+    double delta=alfa*summe+beta*K_von_n(iters)*(vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()]
             +vec_r[a]-2*vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()]);
     qDebug() << "Delta" << delta;
     return delta;
@@ -147,10 +148,10 @@ double MainWindow::v_i_a(int i,int a,int z)
     QVector<double> vec_r=(z>1)?qv_m:qv_n;
     double summ=0;
     for (int k=0;k<qv_n.size();k++){
-        summ+=exp((-1)*(pow(abs(vec_c[i]-vec_r[k]), 2))/T_von_n(a));
+        summ+=exp((-1)*(pow(abs(vec_c[i]-vec_r[k]), 2))/T_von_n(iters));
 
     }
-    double v_i_a=(exp((-1)*(pow(abs(vec_c[i]-vec_r[a]),2))/T_von_n(a)))/summ;
+    double v_i_a=(exp((-1)*(pow(abs(vec_c[i]-vec_r[a]),2))/T_von_n(iters)))/summ;
     qDebug() << "via " << v_i_a;
     return v_i_a;
 
@@ -164,7 +165,7 @@ double MainWindow::T_von_n(int n)
 
 double MainWindow::K_von_n(int n)
 {
-    double K_null=0.2;
+    double K_null=0.1;
     double a=pow(0.99,floor(n/50))*K_null;
     double b=0.01;
     double K=(a>b)?a:b;
