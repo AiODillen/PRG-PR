@@ -101,7 +101,9 @@ void MainWindow::new_coordinates()
     ui->plot->replot();
     ui->plot->update();
     qv_n = new_n;
+    new_n.clear();
     qv_m = new_m;
+    new_m.clear();
 
 }
 
