@@ -24,8 +24,8 @@ public:
     void new_coordinates();
     double delta_n(int j,int c);
     double v_i_a(int i,int j,int z);
-    double T_von_n(int n);
-    double K_von_n(int n);
+    double T_von_n();
+    double K_von_n();
 
 private slots:
     void on_btn_random_clicked();

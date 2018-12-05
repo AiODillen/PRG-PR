@@ -13,8 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     ui->plot->addGraph();
+    ui->plot->xAxis->setRange(0, 1);
+    ui->plot->yAxis->setRange(0, 1);
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc));
     ui->plot->graph(0)->setPen(QPen(Qt::blue));
     ui->plot->graph(0)->setLineStyle(QCPGraph::lsNone);//No line connecting points
@@ -61,8 +62,8 @@ void MainWindow::middlePoint(double n, double m,int number)
     for (double i=0;i<circle_points;i++){
         double xDegrees = 360/circle_points*(i+1);
         double x = xDegrees*3.14159/180;
-        qv_n.append(0.5*cos(x)+n);
-        qv_m.append(0.5*sin(x)+m);
+        qv_n.append(0.1*cos(x)+n);
+        qv_m.append(0.1*sin(x)+m);
     }
 }
 
@@ -96,7 +97,7 @@ void MainWindow::new_coordinates()
             abstand.append(pow((pow((qv_x[i]-qv_n[a]), 2)+pow((qv_y[i]-qv_m[a]), 2)), 0.5));
         }
         qDebug() << "abstand" << abstand;
-        if(*std::min_element(abstand.begin(), abstand.end()) <= 0.1){
+        if(*std::min_element(abstand.begin(), abstand.end()) <= 0.01){
             new_n.append(qv_n[a]);
             new_m.append(qv_m[a]);
         }
@@ -114,6 +115,7 @@ void MainWindow::new_coordinates()
     new_n.clear();
     qv_m = new_m;
     new_m.clear();
+    qDebug() << "ITERS" << iters;
     iters += 1;
 
 }
@@ -124,21 +126,22 @@ double MainWindow::delta_n(int a, int z)
     QVector<double> vec_r=(z>1)?qv_m:qv_n;
     double alfa=1;double beta=1;
     double summe=0;
+    double delta = 0;
     for (int i=0;i<vec_c.size();i++){
         //qDebug() << "csize" << vec_c.size() << i;
         //qDebug() << "rsize" << vec_r.size() << a;
         qDebug() << "a" << a << "i" << i;
         qDebug() <<  "vec_ci" << vec_c[i];
         qDebug() << "vec_ra" << vec_r[a];
-        summe +=v_i_a(i,a,z)*((vec_c[i]-vec_r[a]));
+        summe +=(v_i_a(i,a,z)*((vec_c[i]-vec_r[a])));
     }
     //qDebug() << "BREAK";
     //qDebug() << "ra-1" << vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()];
     //qDebug() << "ra" << vec_r[a];
     //qDebug() << "ra+1" << vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()];
-    qDebug() << K_von_n(a);
-    double delta=alfa*summe+beta*K_von_n(iters)*(vec_r[(((a-1)%vec_r.size())+vec_r.size())%vec_r.size()]
-            +vec_r[a]-2*vec_r[(((a+1)%vec_r.size())+vec_r.size())%vec_r.size()]);
+    qDebug() << K_von_n();
+    delta=alfa*summe+beta*K_von_n()*(vec_r[((a-1)+vec_r.size())%vec_r.size()]
+            +(-2)*vec_r[a]+vec_r[((a+1)+vec_r.size())%vec_r.size()]);
     qDebug() << "Delta" << delta;
     return delta;
 }
@@ -149,25 +152,25 @@ double MainWindow::v_i_a(int i,int a,int z)
     QVector<double> vec_r=(z>1)?qv_m:qv_n;
     double summ=0;
     for (int k=0;k<qv_n.size();k++){
-        summ+=exp((-1)*(pow(abs(vec_c[i]-vec_r[k]), 2))/T_von_n(iters));
+        summ+=exp((-1)*(pow(vec_c[i]-vec_r[k], 2))/T_von_n());
 
     }
-    double v_i_a=(exp((-1)*(pow(abs(vec_c[i]-vec_r[a]),2))/T_von_n(iters)))/summ;
+    double v_i_a=(exp((-1)*(pow(vec_c[i]-vec_r[a],2))/T_von_n()))/summ;
     qDebug() << "via " << v_i_a;
     return v_i_a;
 
 }
 
-double MainWindow::T_von_n(int n)
+double MainWindow::T_von_n()
 {
-    double T=2*pow(K_von_n(n),2);
+    double T=2*pow(K_von_n(),2);
     return T;
 }
 
-double MainWindow::K_von_n(int n)
+double MainWindow::K_von_n()
 {
     double K_null=0.1;
-    double a=pow(0.99,floor(n/50))*K_null;
+    double a=pow(0.99,floor(iters/50))*K_null;
     double b=0.01;
     double K=(a>b)?a:b;
     return K;
@@ -179,7 +182,7 @@ void MainWindow::on_btn_random_clicked()
     srand(time(nullptr));
     int random_cities=ui->number_cities->value();
     for (int i=0;i<random_cities;i++){
-        addPoint(((double)rand() / RAND_MAX) * 5,((double)rand() / RAND_MAX) * 5);//add points randomly
+        addPoint(((double)rand() / RAND_MAX) * 1,((double)rand() / RAND_MAX) * 1);//add points randomly
         clicks_counter.append(1);
     }
     middlePoint(middlePoint_x(),middlePoint_y(),clicks_counter.count());
@@ -207,5 +210,5 @@ void MainWindow::clickedGraph(QMouseEvent *event)
 
 void MainWindow::on_btn_start_clicked()
 {
-   new_coordinates();
+    new_coordinates();
 }
