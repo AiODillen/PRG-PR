@@ -97,7 +97,7 @@ void MainWindow::new_coordinates()
             abstand.append(pow((pow((qv_x[i]-qv_n[a]), 2)+pow((qv_y[i]-qv_m[a]), 2)), 0.5));
         }
         qDebug() << "abstand" << abstand;
-        if(*std::min_element(abstand.begin(), abstand.end()) <= 0.01){
+        if(*std::min_element(abstand.begin(), abstand.end()) <= 0.001){
             new_n.append(qv_n[a]);
             new_m.append(qv_m[a]);
         }
@@ -152,10 +152,18 @@ double MainWindow::v_i_a(int i,int a,int z)
     QVector<double> vec_r=(z>1)?qv_m:qv_n;
     double summ=0;
     for (int k=0;k<qv_n.size();k++){
-        summ+=exp((-1)*(pow(vec_c[i]-vec_r[k], 2))/T_von_n());
+        summ+=exp((-1)*(pow(
+                            abs(pow(
+                                pow((qv_y[i]-qv_m[k]), 2)+pow((qv_x[i]-qv_n[k]), 2)  //Diskriminante
+                                , 0.5))  //Wurzel Betrag
+                            , 2)/T_von_n()));
 
     }
-    double v_i_a=(exp((-1)*(pow(vec_c[i]-vec_r[a],2))/T_von_n()))/summ;
+    double v_i_a=(exp((-1)*(pow(
+                                abs(pow(
+                                    pow((qv_y[i]-qv_m[a]), 2)+pow((qv_x[i]-qv_n[a]), 2)  //Diskriminante
+                                    , 0.5))  //Wurzel Betrag
+                                , 2)/T_von_n())))/summ;
     qDebug() << "via " << v_i_a;
     return v_i_a;
 
